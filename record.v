@@ -19,7 +19,7 @@ fn first_32_bytes(input string) [32]u8 {
 	return result
 }
 
-[heap]
+@[heap]
 pub struct RecordProducer {
 pub mut:
 	name             string
@@ -53,7 +53,7 @@ pub fn (self RecordProducer) new_record_from_buffer(buf []u8, start_position u64
 	return r
 }
 
-[heap]
+@[heap]
 pub struct Record {
 pub mut:
 	id        string
@@ -87,8 +87,8 @@ pub fn (r Record) copy() &Record {
 }
 
 pub fn (mut r Record) move(dir i32) &Record {
-	r.start += dir
-	r.end += dir
+	r.start += u64(dir)
+	r.end += u64(dir)
 	return r
 }
 
@@ -105,7 +105,7 @@ pub fn (mut r Record) is_deleted() bool {
 // Method to convert the struct to a fixed-width string
 pub fn (r Record) to_string() string {
 	// Format timestamp as ISO8601
-	timestamp_str := '${r.timestamp.unix_time_milli():x}'
+	timestamp_str := '${r.timestamp.unix_milli():x}'
 	// Format journal_start and journal_end as zero-padded hexadecimal
 	journal_start_hex := '${r.start:x}'
 	journal_end_hex := '${r.end:x}'
@@ -125,7 +125,7 @@ pub fn record_from_string(input string) !Record {
 	timestamp_millis := strconv.parse_int(parts[1], 16, 64) or {
 		return error('Invalid timestamp format: ${parts}[0]')
 	}
-	timestamp := time.unix2(i64(timestamp_millis / 1000), int((timestamp_millis % 1000) * 1_000_000))
+	timestamp_t := time.unix_microsecond(i64(timestamp_millis / 1000), int((timestamp_millis % 1000) * 1_000_000))
 
 	// Parse journal_start as hexadecimal
 	journal_start := strconv.parse_uint(parts[2], 16, 64) or {
@@ -143,7 +143,7 @@ pub fn record_from_string(input string) !Record {
 	// Return the constructed Record
 	return Record{
 		id: id
-		timestamp: timestamp
+		timestamp: timestamp_t
 		start: journal_start
 		end: journal_end
 	}
