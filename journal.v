@@ -1,4 +1,4 @@
-module main
+module vfdb
 
 import os
 
@@ -14,8 +14,8 @@ pub mut:
 
 pub fn journal_new(record_producer &RecordProducer, path string) !&Journal {
 	mut jf := &Journal{
-		records: []
-		path: path
+		records:         []
+		path:            path
 		record_producer: record_producer
 	}
 	jf.journal = '${path}.journal'

@@ -1,4 +1,4 @@
-module main
+module vfdb
 
 import os
 
@@ -74,7 +74,7 @@ pub fn test_journal_insert() {
 		set_errors(err)
 		&Journal{
 			record_producer: &RecordProducer{}
-			path: 'test'
+			path:            'test'
 		}
 	}
 	j.open() or { set_errors(err) }
@@ -104,7 +104,7 @@ pub fn test_journal_iterate() {
 		set_errors(err)
 		&Journal{
 			record_producer: &RecordProducer{}
-			path: 'test'
+			path:            'test'
 		}
 	}
 	j.open() or { set_errors(err) }

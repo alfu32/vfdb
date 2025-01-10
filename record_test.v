@@ -1,4 +1,4 @@
-module main
+module vfdb
 
 import time
 import crypto.md5
@@ -42,10 +42,10 @@ pub fn test_record_to_string() {
 	r := rp.new_record_from_buffer('hello'.bytes(), 0)
 	// Example usage
 	record := Record{
-		id: r.id
+		id:        r.id
 		timestamp: time.now()
-		start: 12345678
-		end: 87654321
+		start:     12345678
+		end:       87654321
 	}
 
 	stringified := record.to_string()
@@ -55,7 +55,7 @@ pub fn test_record_to_string() {
 pub fn test_record_from_string() {
 	stringified := '5d41402abc4b2a76b9719d911017c592 194502b51d3 bc614e 5397fb1'
 	println('Stringified: ${stringified}')
-	parsed_record := Record.from_string(stringified) or {
+	parsed_record := record_from_string(stringified) or {
 		eprintln('Failed to parse record: ${err}')
 		return
 	}

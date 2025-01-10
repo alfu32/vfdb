@@ -1,4 +1,4 @@
-module main
+module vfdb
 
 import crypto.md5
 import time
@@ -30,7 +30,7 @@ pub mut:
 
 pub fn RecordProducer.md5() &RecordProducer {
 	return &RecordProducer{
-		name: 'default.md5'
+		name:             'default.md5'
 		hashing_function: fn (buf []u8) string {
 			return md5.hexhash(buf.str())
 		}
@@ -70,19 +70,19 @@ pub fn Record.new() &Record {
 
 pub fn (r Record) clone() Record {
 	return Record{
-		id: r.id
+		id:        r.id
 		timestamp: r.timestamp
-		start: r.start
-		end: r.end
+		start:     r.start
+		end:       r.end
 	}
 }
 
 pub fn (r Record) copy() &Record {
 	return &Record{
-		id: r.id
+		id:        r.id
 		timestamp: time.now()
-		start: r.start
-		end: r.end
+		start:     r.start
+		end:       r.end
 	}
 }
 
@@ -142,9 +142,9 @@ pub fn record_from_string(input string) !Record {
 
 	// Return the constructed Record
 	return Record{
-		id: id
+		id:        id
 		timestamp: timestamp_t
-		start: journal_start
-		end: journal_end
+		start:     journal_start
+		end:       journal_end
 	}
 }
